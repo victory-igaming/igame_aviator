@@ -1,6 +1,17 @@
-const GAME_URL = "https://indno.com/";
+
+"use client";
+
+import { useState, useEffect } from 'react';
 
 export default function Header() {
+  const [links, setLinks] = useState({ apkUrl: "#", gameUrl: "#" });
+  useEffect(() => {
+    // This fetches the data from the API route you just created
+    fetch('/api/config')
+      .then((res) => res.json())
+      .then((data) => setLinks(data))
+      .catch((err) => console.error("Failed to load links:", err));
+  }, []);
   return (
     <header className="fixed inset-x-0 top-0 z-[9999] h-[100px]">
       {/* Keep header aligned with the 700px page */}
@@ -16,7 +27,7 @@ export default function Header() {
         <div className="relative z-10 flex h-full items-center justify-between gap-3 px-3">
           {/* Logo */}
           <a
-            href={GAME_URL}
+            href={links.gameUrl}
             target="_blank"
             rel="noopener noreferrer"
             aria-label="INDNO1 home"
@@ -31,7 +42,7 @@ export default function Header() {
 
           {/* Download button */}
           <a
-            href={GAME_URL}
+            href={links.apkUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="

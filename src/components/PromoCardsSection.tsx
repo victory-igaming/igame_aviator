@@ -1,4 +1,7 @@
-const GAME_URL = "https://indno1.com/";
+"use client";
+
+import { useState, useEffect } from 'react';
+
 
 type PromoCardProps = {
   image: string;
@@ -41,6 +44,8 @@ const promoCards: PromoCardProps[] = [
 ];
 
 export default function PromoCardsSection() {
+  
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#520000] via-[#360000] to-[#210000] px-3 pb-8 pt-3 sm:px-4">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,0,0,0.16),transparent_60%)]" />
@@ -64,9 +69,19 @@ export function PromoCard({
   description,
   type,
 }: PromoCardProps) {
+
+  const [links, setLinks] = useState({ apkUrl: "#", gameUrl: "#" });
+  useEffect(() => {
+    // This fetches the data from the API route you just created
+    fetch('/api/config')
+      .then((res) => res.json())
+      .then((data) => setLinks(data))
+      .catch((err) => console.error("Failed to load links:", err));
+  }, []);
+
   return (
     <a
-      href={GAME_URL}
+      href={links.gameUrl}
       target="_blank"
       rel="noopener noreferrer"
       aria-label={alt}
