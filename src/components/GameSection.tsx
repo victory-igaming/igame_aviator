@@ -1,3 +1,7 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+
 const games = [
   {
     title: "Chicken Road",
@@ -68,6 +72,8 @@ export default function GameSection() {
 }
 
 function SectionBadge({ title }: { title: string }) {
+	
+
   return (
     <div className="flex items-center justify-center gap-2">
       <div className="h-[2px] flex-1 bg-gradient-to-r from-transparent to-yellow-500" />
@@ -88,9 +94,18 @@ function GameBanner({
   image?: string;
   alt?: string;
 }) {
+
+	  const [links, setLinks] = useState({ apkUrl: "#", gameUrl: "#" });
+  useEffect(() => {
+    // This fetches the data from the API route you just created
+    fetch('/api/config')
+      .then((res) => res.json())
+      .then((data) => setLinks(data))
+      .catch((err) => console.error("Failed to load links:", err));
+  }, []);
   return (
     <a
-      href="https://indno.com/"
+      href={links.gameUrl}
       className="group relative block aspect-[1536/768] w-full overflow-hidden rounded-xl border border-yellow-300/40 bg-black shadow-lg transition duration-300 hover:-translate-y-1 hover:shadow-[0_0_24px_rgba(255,193,7,0.35)]"
     >
       <img

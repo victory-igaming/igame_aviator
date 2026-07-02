@@ -1,6 +1,17 @@
-const GAME_URL = "https://indno.com/";
+"use client";
+
+import { useState, useEffect } from 'react';
 
 export default function OnlineUsers() {
+  const [links, setLinks] = useState({ apkUrl: "#", gameUrl: "#" });
+  useEffect(() => {
+    // This fetches the data from the API route you just created
+    fetch('/api/config')
+      .then((res) => res.json())
+      .then((data) => setLinks(data))
+      .catch((err) => console.error("Failed to load links:", err));
+  }, []);
+
   return (
     <section className="relative bg-transparent px-3 pb-0 pt-3 text-center sm:px-5 sm:pt-5">
       <div className="mx-auto w-full max-w-[700px]">
@@ -72,7 +83,7 @@ export default function OnlineUsers() {
 
         {/* Claim bonus button */}
         <a
-          href={GAME_URL}
+          href={links.gameUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Click now to receive 500 rupees"
